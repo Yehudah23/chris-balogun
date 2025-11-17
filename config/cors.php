@@ -19,7 +19,11 @@ return [
 
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => ['*'],
+    // Restrict allowed origins to your deployed frontend domain.
+    // Replace or add more domains if you host multiple frontends.
+    'allowed_origins' => [
+        'https://chrisbalogun-portfolio-zl5o.vercel.app', // <-- your frontend domain
+    ],
 
     'allowed_origins_patterns' => [],
 
