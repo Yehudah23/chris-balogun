@@ -33,6 +33,8 @@ return [
 
     'max_age' => 0,
 
-    'supports_credentials' => false,
+    // Allow credentials (cookies) to be sent for first-party SPA auth (Laravel Sanctum).
+    // Make sure to set SANCTUM_STATEFUL_DOMAINS and SESSION_DOMAIN in your production `.env`.
+    'supports_credentials' => true,
 
 ];
