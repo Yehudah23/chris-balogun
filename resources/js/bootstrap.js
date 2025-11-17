@@ -10,6 +10,23 @@ window.axios = require('axios');
 
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
+// Determine API base URL from build-time environment variables.
+// Set one of these in your build environment (Vercel):
+// - MIX_API_URL
+// - VUE_APP_API_URL
+// - MIX_APP_URL
+// Example value: "https://api.example.com" (do NOT include a trailing slash).
+// If none are set we leave axios to use relative URLs (good for local php artisan serve).
+try {
+	var apiBase = (typeof process !== 'undefined' && process.env && (process.env.MIX_API_URL || process.env.VUE_APP_API_URL || process.env.MIX_APP_URL)) || '';
+	if (apiBase) {
+		// If the env var contains a path like '/api', keep as-is. Otherwise you can include '/api' in requests.
+		window.axios.defaults.baseURL = apiBase;
+	}
+} catch (e) {
+	// Defensive: in some build environments `process` may be unavailable at runtime.
+}
+
 /**
  * Echo exposes an expressive API for subscribing to channels and listening
  * for events that are broadcast by Laravel. Echo and event broadcasting
