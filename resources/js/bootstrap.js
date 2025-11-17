@@ -27,6 +27,23 @@ try {
 	// Defensive: in some build environments `process` may be unavailable at runtime.
 }
 
+// Optionally enable credentials (cookies) when using Sanctum/session auth.
+// Set MIX_API_WITH_CREDENTIALS=true (or VUE_APP_API_WITH_CREDENTIALS=true) in your build env to enable.
+try {
+	var creds = (typeof process !== 'undefined' && process.env && (process.env.MIX_API_WITH_CREDENTIALS || process.env.VUE_APP_API_WITH_CREDENTIALS)) || '';
+	if (creds && (creds === '1' || creds.toLowerCase() === 'true')) {
+		window.axios.defaults.withCredentials = true;
+	}
+} catch (e) {}
+
+// Debug: expose values to help troubleshooting in production builds.
+try {
+	if (typeof console !== 'undefined') {
+		console.info('AXIOS baseURL:', window.axios.defaults.baseURL || '(relative)');
+		console.info('AXIOS withCredentials:', !!window.axios.defaults.withCredentials);
+	}
+} catch (e) {}
+
 /**
  * Echo exposes an expressive API for subscribing to channels and listening
  * for events that are broadcast by Laravel. Echo and event broadcasting
