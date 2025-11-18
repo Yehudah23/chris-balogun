@@ -19,13 +19,24 @@ return [
 
     'allowed_methods' => ['*'],
 
-    // Restrict allowed origins to your deployed frontend domain.
-    // Replace or add more domains if you host multiple frontends.
+    // Allowed origins: production frontend plus common local/dev hosts.
+    // Keep this list small in production. The patterns below make it easier
+    // to test from other devices on your local network (192.168.x.x, 10.x.x.x).
     'allowed_origins' => [
-        'https://chrisbalogun-portfolio-zl5o.vercel.app', // <-- your frontend domain
+        'https://chrisbalogun-portfolio-zl5o.vercel.app', // production frontend
+        'http://localhost',
+        'http://127.0.0.1',
+        'http://127.0.0.1:8000',
     ],
 
-    'allowed_origins_patterns' => [],
+    // Regex patterns for additional allowed origins (LAN IP ranges).
+    // These allow devices on your local network to access the API during testing.
+    'allowed_origins_patterns' => [
+        '^https?://localhost(:[0-9]+)?$',
+        '^https?://127\\.0\\.0\\.1(:[0-9]+)?$',
+        '^https?://192\\.168\\.[0-9]{1,3}\\.[0-9]{1,3}(:[0-9]+)?$',
+        '^https?://10\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}(:[0-9]+)?$',
+    ],
 
     'allowed_headers' => ['*'],
 
